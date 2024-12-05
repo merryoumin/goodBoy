@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
-    "build": "mkdir -p build && cp -r index.html st.png build/",
+    "build": "mkdir -p build && cp -r public/* build/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
