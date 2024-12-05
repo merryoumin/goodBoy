@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.static('public'));
 
-const dataFilePath = path.join(__dirname, 'users.json');
+const dataFilePath = path.join(__dirname, 'public', 'users.json');
 
 // 초기 데이터 파일이 없는 경우 생성
 if (!fs.existsSync(dataFilePath)) {
