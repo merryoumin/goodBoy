@@ -4,13 +4,10 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 
-// CORS 미들웨어 설정
 app.use(cors());
-
 app.use(express.json({limit: '50mb'}));
 app.use(express.static('public'));
 
-// 데이터 파일 경로
 const dataFilePath = path.join(__dirname, 'users.json');
 
 // 초기 데이터 파일이 없는 경우 생성
@@ -20,7 +17,7 @@ if (!fs.existsSync(dataFilePath)) {
 
 // 메인 페이지
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'stamp.html'));
 });
 
 // 로그인 및 회원가입 엔드포인트
