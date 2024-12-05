@@ -137,7 +137,7 @@
                 return;
             }
 
-            fetch('/login', {
+            fetch('http://localhost:3000/login', {  // 로컬 서버 주소로 요청
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +190,7 @@
                 return;
             }
 
-            fetch('/saveStamps', {
+            fetch('http://localhost:3000/saveStamps', {  // 로컬 서버 주소로 요청
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
