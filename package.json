@@ -5,13 +5,18 @@
   },
   "name": "20241205_stamp",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "mkdir -p build && cp -r index.html st.png build/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
+  },
+  "homepage": "https://merryoumin.github.io/goodBoy/"
 }

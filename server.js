@@ -20,7 +20,7 @@ if (!fs.existsSync(dataFilePath)) {
 
 // 메인 페이지
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'stamp.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 로그인 및 회원가입 엔드포인트
