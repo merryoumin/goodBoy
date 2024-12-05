@@ -116,14 +116,14 @@
         function initializeStampGrid() {
             const grid = document.getElementById('stampGrid');
             grid.innerHTML = '';
-            
+
             grapePositions.forEach((pos, index) => {
                 const circle = document.createElement('div');
                 circle.className = 'stamp-circle empty-circle';
                 circle.style.left = pos.x + 'px';
                 circle.style.top = pos.y + 'px';
-                circle.dataset.index = index;
-                circle.onclick = () => addStamp(index);
+                circle.setAttribute('data-index', index);
+                circle.addEventListener('click', () => addStamp(index));
                 grid.appendChild(circle);
             });
         }
@@ -146,14 +146,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                // alert(data.message);
+                alert(data.message);
                 
                 if (data.success) {
                     currentUser = id;
                     stamps = data.stamps || [];
                     showStampSection();
                     loadStamps();
-                    alert('로그인 성공!');
                 }
             })
             .catch(error => {
