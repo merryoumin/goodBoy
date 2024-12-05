@@ -1,0 +1,75 @@
+[
+  {
+    "userId": "1",
+    "password": "1",
+    "stamps": [
+      null,
+      null,
+      null,
+      null,
+      "st.png",
+      null,
+      null,
+      "st.png",
+      "st.png",
+      null,
+      null,
+      "st.png",
+      "st.png",
+      "st.png",
+      null,
+      null,
+      "st.png"
+    ]
+  },
+  {
+    "userId": "2",
+    "password": "2",
+    "stamps": [
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png",
+      "st.png"
+    ]
+  },
+  {
+    "userId": "5",
+    "password": "5",
+    "stamps": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "st.png"
+    ]
+  }
+]
