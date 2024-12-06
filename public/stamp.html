@@ -93,7 +93,7 @@
 
         <div id="stampSection" style="display: none;">
             <div class="stamp-grid" id="stampGrid"></div>
-            <button onclick="saveStampsToJson()">저장하기</button>
+            <button onclick="saveStamps()">저장하기</button>
             <button onclick="logout()">로그아웃</button>
         </div>
     </div>
@@ -113,6 +113,17 @@
             {x: 170, y: 420}
         ];
 
+        // 페이지 로드 시 로그인 상태 확인
+        window.onload = function() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = savedUser;
+                stamps = JSON.parse(localStorage.getItem(`stamps_${currentUser}`) || '[]');
+                showStampSection();
+            }
+            initializeStampGrid();
+        };
+
         function initializeStampGrid() {
             const grid = document.getElementById('stampGrid');
             grid.innerHTML = '';
@@ -126,6 +137,10 @@
                 circle.addEventListener('click', () => addStamp(index));
                 grid.appendChild(circle);
             });
+
+            if (stamps.length > 0) {
+                loadStamps();
+            }
         }
 
         function handleLogin() {
@@ -137,28 +152,33 @@
                 return;
             }
 
-            fetch('http://localhost:3000/login', {  // 로컬 서버 주소로 요청
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId: id, password: pw })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                
-                if (data.success) {
+            // localStorage에서 사용자 정보 확인
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const existingUser = users.find(user => user.userId === id);
+
+            if (!existingUser) {
+                // 새 사용자 등록
+                users.push({ userId: id, password: pw });
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem(`stamps_${id}`, '[]');
+                currentUser = id;
+                stamps = [];
+                alert('회원가입이 완료되었습니다!');
+            } else {
+                // 기존 사용자 로그인
+                if (existingUser.password === pw) {
                     currentUser = id;
-                    stamps = data.stamps || [];
-                    showStampSection();
-                    loadStamps();
+                    stamps = JSON.parse(localStorage.getItem(`stamps_${id}`) || '[]');
+                    alert('로그인 성공!');
+                } else {
+                    alert('비밀번호가 틀렸습니다!');
+                    return;
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('로그인 중 오류가 발생했습니다.');
-            });
+            }
+
+            localStorage.setItem('currentUser', id);
+            showStampSection();
+            loadStamps();
         }
 
         function showStampSection() {
@@ -182,49 +202,31 @@
             circle.classList.add('filled-circle');
 
             stamps[index] = 'st.png';
+            saveStamps();
         }
 
-        function saveStampsToJson() {
+        function saveStamps() {
             if (!currentUser) {
                 alert('로그인이 필요합니다!');
                 return;
             }
 
-            fetch('http://localhost:3000/saveStamps', {  // 로컬 서버 주소로 요청
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: currentUser,
-                    stamps: stamps
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('저장되었습니다!');
-                } else {
-                    alert(data.message || '저장 실패');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('저장 중 오류가 발생했습니다.');
-            });
+            localStorage.setItem(`stamps_${currentUser}`, JSON.stringify(stamps));
+            alert('저장되었습니다!');
         }
 
         function logout() {
             currentUser = null;
             stamps = [];
+            localStorage.removeItem('currentUser');
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('stampSection').style.display = 'none';
             document.getElementById('userId').value = '';
             document.getElementById('userPw').value = '';
+            initializeStampGrid();
         }
 
         function loadStamps() {
-            initializeStampGrid();
             if (stamps && stamps.length > 0) {
                 stamps.forEach((stampData, index) => {
                     if (stampData) {
@@ -239,10 +241,6 @@
                     }
                 });
             }
-        }
-
-        window.onload = function() {
-            initializeStampGrid();
         }
     </script>
 </body>
